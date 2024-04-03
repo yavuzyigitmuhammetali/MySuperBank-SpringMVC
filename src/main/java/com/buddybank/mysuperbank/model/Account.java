@@ -1,5 +1,6 @@
 package com.buddybank.mysuperbank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnore
     private Customer customer;
 
     @OneToMany(mappedBy = "account")

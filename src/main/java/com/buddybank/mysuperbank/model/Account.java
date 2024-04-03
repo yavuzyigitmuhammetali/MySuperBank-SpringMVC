@@ -3,7 +3,7 @@ package com.buddybank.mysuperbank.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +21,12 @@ public class Account {
 
     @Column
     private Long balance;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
 
 }

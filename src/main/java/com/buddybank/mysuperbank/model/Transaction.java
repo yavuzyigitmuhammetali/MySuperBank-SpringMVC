@@ -28,4 +28,8 @@ public class Transaction {
     @Column
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
 }

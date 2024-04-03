@@ -3,7 +3,7 @@ package com.buddybank.mysuperbank.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,4 +30,7 @@ public class Customer {
 
     @Column
     private String address;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Account> accounts;
 }

@@ -7,6 +7,11 @@
 <body>
 <div class="container mt-5">
     <h2>Customer Accounts</h2>
+    <!-- Hesap oluşturma butonu -->
+    <div class="mt-4">
+        <a th:href="@{/customers/{id}/accounts/create(id=${customer.get().getId()})}" class="btn btn-success">Create Account</a>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <table class="table table-striped">

@@ -1,52 +1,45 @@
 package com.buddybank.mysuperbank.controller;
 
-import com.buddybank.mysuperbank.dto.TransferRequest;
 import com.buddybank.mysuperbank.model.Account;
-import com.buddybank.mysuperbank.model.Transaction;
+import com.buddybank.mysuperbank.model.Customer;
 import com.buddybank.mysuperbank.service.AccountService;
+import com.buddybank.mysuperbank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/accounts")
+@Controller
+@RequestMapping
 public class AccountController {
 
     private final AccountService accountService;
+    private final CustomerService customerService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, CustomerService customerService) {
         this.accountService = accountService;
+        this.customerService = customerService;
     }
 
-    @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account);
+    @GetMapping("/customers/{customerId}/accounts/create")
+    public String showCreateAccountForm(@PathVariable Long customerId, Model model) {
+        Account account = new Account();
+        model.addAttribute("account", account);
+        model.addAttribute("customerId", customerId);
+        return "createAccount";
     }
 
-    @GetMapping("/{id}")
-    public Account getAccountById(@PathVariable Long id) {
-        return accountService.getAccountById(id).orElseThrow(() -> new RuntimeException("Account not found"));
-    }
-
-    @PutMapping("/{id}")
-    public Account updateAccount(@PathVariable Long id, @RequestBody Account accountDetails) {
-        return accountService.updateAccount(id, accountDetails);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAccount(@PathVariable Long id) {
-        accountService.deleteAccount(id);
-    }
-
-    @GetMapping("/{accountId}/transactions")
-    public List<Transaction> getTransactionsForAccount(@PathVariable Long accountId) {
-        return accountService.getTransactionsForAccount(accountId);
-    }
-
-    @PostMapping("/transfer")
-    public void transferMoney(@RequestBody TransferRequest transferRequest) {
-        accountService.transferMoney(transferRequest.getFromAccountId(), transferRequest.getToAccountId(), transferRequest.getAmount(), transferRequest.getDescription());
+    @PostMapping("/customers/{customerId}/accounts/create")
+    public String createAccount(@PathVariable Long customerId, @ModelAttribute("account") Account account, Model model) {
+        Customer customer = customerService.getCustomerById(customerId)
+            .orElseThrow(() -> new RuntimeException("Customer not found with id " + customerId));
+        account.setCustomer(customer);
+        accountService.createAccount(account);
+        return "redirect:/customers/" + customerId + "/accounts";
     }
 }

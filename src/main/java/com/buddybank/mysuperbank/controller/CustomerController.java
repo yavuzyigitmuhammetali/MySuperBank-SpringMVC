@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -44,6 +45,8 @@ public class CustomerController {
     @GetMapping("/{customerId}/accounts")
     public String viewCustomerAccounts(@PathVariable Long customerId, Model model) {
         List<Account> accounts = customerService.getAccountsForCustomer(customerId);
+        Optional<Customer> customer = customerService.getCustomerById(customerId);
+        model.addAttribute("customer", customer);
         model.addAttribute("accounts", accounts);
         return "customerAccounts"; // Assuming you have a Thymeleaf template named 'customerAccounts.html'
     }

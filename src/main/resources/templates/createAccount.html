@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Create Account</h2>
+    <form th:action="@{/customers/{customerId}/accounts/create(customerId=${customerId})}" th:object="${account}" method="post">
+        <input type="hidden" th:field="*{customer.id}" />
+        <div class="form-group">
+            <label for="accountType">Account Type</label>
+            <select class="form-control" id="accountType" th:field="*{accountType}">
+                <option value="">Select Account Type</option>
+                <option value="SAVINGS">Savings</option>
+                <option value="CHECKING">Checking</option>
+                <option value="CREDIT">Credit</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="balance">Balance</label>
+            <input type="number" class="form-control" id="balance" th:field="*{balance}" placeholder="Enter initial balance">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

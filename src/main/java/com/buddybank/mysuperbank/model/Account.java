@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder //hgfvfv
+@Builder
 @Entity
 public class Account {
     @Id

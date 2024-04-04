@@ -74,4 +74,10 @@ public class CustomerService {
         transaction.setAccount(account);
         return transactionRepository.save(transaction);
     }
+
+    public List<Account> getAccountsForCustomer(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+            .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return customer.getAccounts();
+    }
 }

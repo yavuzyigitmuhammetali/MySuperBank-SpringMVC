@@ -29,10 +29,16 @@ public class CustomerController {
         model.addAttribute("customers", customers);
         return "customers";
     }
+    @GetMapping("/new")
+    public String showAddCustomerForm(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "addCustomer";
+    }
 
-    @PostMapping
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    @PostMapping("/new")
+    public String createCustomer(Customer customer, Model model) {
+        customerService.createCustomer(customer);
+        return "redirect:/api/customers/test"; // Redirect to the list of customers after adding a new one
     }
 
     @GetMapping("/{id}")
@@ -68,5 +74,12 @@ public class CustomerController {
     @PostMapping("/accounts/{accountId}/transactions")
     public Transaction createTransactionForAccount(@PathVariable Long accountId, @RequestBody Transaction transaction) {
         return customerService.createTransactionForAccount(accountId, transaction);
+    }
+
+    @GetMapping("/{customerId}/accounts")
+    public String viewCustomerAccounts(@PathVariable Long customerId, Model model) {
+        List<Account> accounts = customerService.getAccountsForCustomer(customerId);
+        model.addAttribute("accounts", accounts);
+        return "customerAccounts"; // Assuming you have a Thymeleaf template named 'customerAccounts.html'
     }
 }

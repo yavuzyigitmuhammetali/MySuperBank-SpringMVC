@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/api/customers")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -23,7 +23,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/")
     public String listCustomers(Model model) {
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
@@ -38,42 +38,7 @@ public class CustomerController {
     @PostMapping("/new")
     public String createCustomer(Customer customer, Model model) {
         customerService.createCustomer(customer);
-        return "redirect:/api/customers/test"; // Redirect to the list of customers after adding a new one
-    }
-
-    @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
-    }
-
-    @PutMapping("/{id}")
-    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customerDetails) {
-        return customerService.updateCustomer(id, customerDetails);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
-    }
-
-    @PostMapping("/{customerId}/accounts")
-    public Account createAccountForCustomer(@PathVariable Long customerId, @RequestBody Account account) {
-        return customerService.createAccountForCustomer(customerId, account);
-    }
-
-    @PutMapping("/accounts/{accountId}")
-    public Account updateAccount(@PathVariable Long accountId, @RequestBody Account accountDetails) {
-        return customerService.updateAccount(accountId, accountDetails);
-    }
-
-    @DeleteMapping("/accounts/{accountId}")
-    public void deleteAccount(@PathVariable Long accountId) {
-        customerService.deleteAccount(accountId);
-    }
-
-    @PostMapping("/accounts/{accountId}/transactions")
-    public Transaction createTransactionForAccount(@PathVariable Long accountId, @RequestBody Transaction transaction) {
-        return customerService.createTransactionForAccount(accountId, transaction);
+        return "redirect:/customers/"; // Redirect to the list of customers after adding a new one
     }
 
     @GetMapping("/{customerId}/accounts")
@@ -81,5 +46,25 @@ public class CustomerController {
         List<Account> accounts = customerService.getAccountsForCustomer(customerId);
         model.addAttribute("accounts", accounts);
         return "customerAccounts"; // Assuming you have a Thymeleaf template named 'customerAccounts.html'
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditCustomerForm(@PathVariable Long id, Model model) {
+        Customer customer = customerService.getCustomerById(id)
+            .orElseThrow(() -> new RuntimeException("Customer not found"));
+        model.addAttribute("customer", customer);
+        return "editCustomer";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCustomer(@PathVariable Long id, Customer customer, Model model) {
+        customerService.updateCustomer(id, customer);
+        return "redirect:/customers/"; // Adjust the redirect as needed
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return "redirect:/customers/"; // Adjust the redirect as needed
     }
 }

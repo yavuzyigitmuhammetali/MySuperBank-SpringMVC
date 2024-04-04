@@ -7,7 +7,7 @@
 <body>
 <div class="container">
     <h2>Add Customer</h2>
-    <form th:action="@{/api/customers/new}" th:object="${customer}" method="post">
+    <form th:action="@{/customers/new}" th:object="${customer}" method="post">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter name">

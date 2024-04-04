@@ -19,13 +19,16 @@
         <tr th:each="customer : ${customers}">
             <td th:text="${customer.name}">Customer Name</td>
             <td>
-                <a th:href="@{/customer/{id}(id=${customer.id})}" class="btn btn-info">Edit</a>
-                <a th:href="@{/customer/delete/{id}(id=${customer.id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/customer/{id}/accounts(id=${customer.id})}" class="btn btn-secondary">View Accounts</a>
+                <a th:href="@{/customers/edit/{id}(id=${customer.id})}" class="btn btn-info">Edit</a>
+                <a th:href="@{/customers/delete/{id}(id=${customer.id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/customers/{id}/accounts(id=${customer.id})}" class="btn btn-secondary">View Accounts</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

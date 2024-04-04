@@ -26,6 +26,12 @@ public class AccountController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/accounts/delete/{id}")
+    public String deleteAccount(@PathVariable Long id) {
+        accountService.deleteAccount(id);
+        return "redirect:/customers/";
+    }
+
     @GetMapping("/customers/{customerId}/accounts/create")
     public String showCreateAccountForm(@PathVariable Long customerId, Model model) {
         Account account = new Account();
@@ -41,5 +47,20 @@ public class AccountController {
         account.setCustomer(customer);
         accountService.createAccount(account);
         return "redirect:/customers/" + customerId + "/accounts";
+    }
+
+    @GetMapping("/accounts/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        Account account = accountService.getAccountById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + id));
+        model.addAttribute("account", account);
+        return "editAccount";
+    }
+
+    @PostMapping("/accounts/update/{id}")
+    public String updateAccount(@PathVariable("id") Long id, @ModelAttribute("account") Account account, Model model) {
+        account.setId(id);
+        accountService.updateAccount(id, account);
+        return "redirect:/customers/";
     }
 }

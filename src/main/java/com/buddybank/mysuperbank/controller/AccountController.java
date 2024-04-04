@@ -1,5 +1,6 @@
 package com.buddybank.mysuperbank.controller;
 
+import com.buddybank.mysuperbank.dto.TransferRequest;
 import com.buddybank.mysuperbank.model.Account;
 import com.buddybank.mysuperbank.model.Customer;
 import com.buddybank.mysuperbank.service.AccountService;
@@ -7,11 +8,8 @@ import com.buddybank.mysuperbank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping
@@ -19,6 +17,23 @@ public class AccountController {
 
     private final AccountService accountService;
     private final CustomerService customerService;
+
+    @GetMapping("/transfer/")
+    public String showTransferForm(Model model) {
+        model.addAttribute("transferRequest", new TransferRequest());
+        return "transfer";
+    }
+
+    @PostMapping("/transfer/")
+    public String transferMoney(@ModelAttribute TransferRequest transferRequest, RedirectAttributes redirectAttributes) {
+        try {
+            accountService.transferMoney(transferRequest.getFromAccountId(), transferRequest.getToAccountId(), transferRequest.getAmount(), transferRequest.getDescription());
+            redirectAttributes.addFlashAttribute("successMessage", "Transfer successful!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Transfer failed: " + e.getMessage());
+        }
+        return "redirect:/customers/";
+    }
 
     @Autowired
     public AccountController(AccountService accountService, CustomerService customerService) {
@@ -43,7 +58,7 @@ public class AccountController {
     @PostMapping("/customers/{customerId}/accounts/create")
     public String createAccount(@PathVariable Long customerId, @ModelAttribute("account") Account account, Model model) {
         Customer customer = customerService.getCustomerById(customerId)
-            .orElseThrow(() -> new RuntimeException("Customer not found with id " + customerId));
+                .orElseThrow(() -> new RuntimeException("Customer not found with id " + customerId));
         account.setCustomer(customer);
         accountService.createAccount(account);
         return "redirect:/customers/" + customerId + "/accounts";
@@ -52,7 +67,7 @@ public class AccountController {
     @GetMapping("/accounts/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Account account = accountService.getAccountById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid account Id:" + id));
         model.addAttribute("account", account);
         return "editAccount";
     }

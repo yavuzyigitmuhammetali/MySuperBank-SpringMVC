@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Customers</h2>
+    <a th:href="@{/customer/new}" class="btn btn-primary">Add Customer</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.name}">Customer Name</td>
+            <td>
+                <a th:href="@{/customer/{id}(id=${customer.id})}" class="btn btn-info">Edit</a>
+                <a th:href="@{/customer/delete/{id}(id=${customer.id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/customer/{id}/accounts(id=${customer.id})}" class="btn btn-secondary">View Accounts</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

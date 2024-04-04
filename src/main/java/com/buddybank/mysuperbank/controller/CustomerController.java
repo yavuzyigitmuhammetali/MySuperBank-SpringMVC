@@ -5,10 +5,14 @@ import com.buddybank.mysuperbank.model.Customer;
 import com.buddybank.mysuperbank.model.Transaction;
 import com.buddybank.mysuperbank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@RestController
+
+@Controller
 @RequestMapping("/api/customers")
 public class CustomerController {
 
@@ -17,6 +21,13 @@ public class CustomerController {
     @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    @GetMapping("/test")
+    public String listCustomers(Model model) {
+        List<Customer> customers = customerService.getAllCustomers();
+        model.addAttribute("customers", customers);
+        return "customers";
     }
 
     @PostMapping

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,26 +7,29 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Transfer Money</h2>
-    <form th:action="@{/transfer/}" method="post">
-        <div class="form-group">
-            <label for="fromAccountId">From Account ID</label>
-            <input type="number" class="form-control" id="fromAccountId" name="fromAccountId" required>
-        </div>
-        <div class="form-group">
-            <label for="toAccountId">To Account ID</label>
-            <input type="number" class="form-control" id="toAccountId" name="toAccountId" required>
-        </div>
-        <div class="form-group">
-            <label for="amount">Amount</label>
-            <input type="number" class="form-control" id="amount" name="amount" required>
-        </div>
-        <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description">
-        </div>
-        <button type="submit" class="btn btn-primary">Transfer</button>
-    </form>
+    <div style="border: 1px solid black; padding: 50px;">
+        <h2>Transfer Money</h2>
+        <form th:action="@{/transfer/}" method="post">
+            <div class="form-group">
+                <label for="fromAccountId">From Account ID</label>
+                <input type="number" class="form-control" id="fromAccountId" name="fromAccountId" required>
+            </div>
+            <div class="form-group">
+                <label for="toAccountId">To Account ID</label>
+                <input type="number" class="form-control" id="toAccountId" name="toAccountId" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description">
+            </div>
+            <button type="submit" class="btn btn-primary">Transfer</button>
+        </form>
+        <a style="margin: 20px;" href="javascript:history.back()" class="btn btn-secondary">Back</a>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

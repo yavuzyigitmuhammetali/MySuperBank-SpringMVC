@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,27 +7,29 @@
 </head>
 <body>
 <div class="container">
-    <h2>Customers</h2>
-    <a th:href="@{new}" class="btn btn-primary">Add Customer</a>
-    <a href="/transfer/" class="btn btn-success">Money Transfer</a>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="customer : ${customers}">
-            <td th:text="${customer.name}">Customer Name</td>
-            <td>
-                <a th:href="@{/customers/edit/{id}(id=${customer.id})}" class="btn btn-info">Edit</a>
-                <a th:href="@{/customers/delete/{id}(id=${customer.id})}" class="btn btn-danger">Delete</a>
-                <a th:href="@{/customers/{id}/accounts(id=${customer.id})}" class="btn btn-secondary">View Accounts</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div style="border: 1px solid black; padding: 50px;">
+        <h2>Customers</h2>
+        <a th:href="@{new}" class="btn btn-primary">Add Customer</a>
+        <a href="/transfer/" class="btn btn-success">Money Transfer</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.name}">Customer Name</td>
+                <td>
+                    <a th:href="@{/customers/edit/{id}(id=${customer.id})}" class="btn btn-info">Edit</a>
+                    <a th:href="@{/customers/delete/{id}(id=${customer.id})}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{/customers/{id}/accounts(id=${customer.id})}" class="btn btn-secondary">View Accounts</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

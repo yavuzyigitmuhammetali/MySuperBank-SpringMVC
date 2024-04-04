@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,19 +7,22 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Transactions</h2>
-    <div class="mt-4">
-        <div class="row">
-            <div th:each="transaction : ${transactions}" class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${transaction.transactionType}">Transaction Type</h5>
-                        <p class="card-text"><strong>Date:</strong> <span th:text="${transaction.expiryDate}">Date</span></p>
-                        <p class="card-text"><strong>Amount:</strong> <span th:text="${transaction.balance}">Amount</span></p>
-                        <p class="card-text"><strong>Description:</strong> <span th:text="${transaction.description}">Description</span></p>
+    <div style="border: 1px solid black; padding: 50px;">
+        <h2>Transactions</h2>
+        <div class="mt-4">
+            <div class="row">
+                <div th:each="transaction : ${transactions}" class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${transaction.transactionType}">Transaction Type</h5>
+                            <p class="card-text"><strong>Date:</strong> <span th:text="${transaction.expiryDate}">Date</span></p>
+                            <p class="card-text"><strong>Amount:</strong> <span th:text="${transaction.balance}">Amount</span></p>
+                            <p class="card-text"><strong>Description:</strong> <span th:text="${transaction.description}">Description</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
         </div>
     </div>
 </div>
